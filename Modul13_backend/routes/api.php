@@ -29,4 +29,9 @@ Route::middleware('auth:api')->group(function(){
     Route::delete('/contents/{id}',[App\Http\Controllers\Api\ContentController::class,'destroy']);
 
     Route::get('/contents/user/{id}',[App\Http\Controllers\Api\ContentController::class,'showContentbyUser']);
+
+    Route::get('/favourites',[App\Http\Controllers\Api\FavouritesController::class,'index']);
+    Route::post('/favourites',[App\Http\Controllers\Api\FavouritesController::class,'store']);
+    Route::delete('/favourites/{id}',[App\Http\Controllers\Api\FavouritesController::class,'destroy']);
+    
 });

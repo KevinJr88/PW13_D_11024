@@ -1,10 +1,41 @@
 import { useEffect, useState } from "react";
 import { Alert, Col, Container, Row, Spinner, Stack } from "react-bootstrap";
 import { GetAllContents } from "../api/apiContent";
+import { CreateFavourites } from "../api/apiFavourites";
 import { getThumbnail } from "../api";
+import { MdFavorite } from "react-icons/md";
+import { toast } from "react-toastify";
+
 const DashboardPage = () => {
     const [contents, setContents] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+
+    const buttonAdd = {
+        width: "35px",
+        padding: "1px",
+        borderRadius: "5px",
+        backgroundColor: "blue",
+        marginTop: "20px",
+        border: "none",
+    };
+
+    const setToFavorite = (id) => {
+        setIsLoading(true);
+        const formData = new FormData();
+        formData.append("id_content", id);
+
+        // console.log(formData.get("id_content"));
+        CreateFavourites(formData)
+            .then((response) => {
+                setIsLoading(false);
+                toast.success(response.message);
+            })
+            .catch((err) => {
+                console.log(err);
+                setIsLoading(false);
+                toast.dark(JSON.stringify(err.message));
+            });
+    };
 
     useEffect(() => {
         setIsLoading(true);
@@ -48,11 +79,20 @@ const DashboardPage = () => {
                                     className="card-img w-100 h-100 object-fit-cover bg-light"
                                     alt="..."
                                 />
-                                <div className="card-body">
-                                    <h5 className="card-title text-truncate">
-                                        {content.title}
-                                    </h5>
-                                    <p className="card-text">{content.description}</p>
+                                <div className="card-body d-flex justify-content-between">
+                                    <div className="">
+                                        <h5 className="card-title text-truncate">
+                                            {content.title}
+                                        </h5>
+                                        <p className="card-text">{content.description}</p>
+                                    </div>
+
+                                    <button
+                                        style={buttonAdd}
+                                        onClick={() => setToFavorite(content.id)}
+                                    >
+                                        <MdFavorite />
+                                    </button>
                                 </div>
                             </div>
                         </Col>
