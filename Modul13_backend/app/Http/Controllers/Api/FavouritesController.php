@@ -50,7 +50,7 @@ class FavouritesController extends Controller
         
         if ($favourites !== null) {
             return response([
-                'message' => 'Already in your favourite list'
+                'message' => 'Content already in your favourite list'
             ], 404);
         }
         
@@ -66,7 +66,7 @@ class FavouritesController extends Controller
 
         $favourites = Favourites::create($storeData);
         return response([
-            'message' => ' Favourites Added Successfully',
+            'message' => ' Added to Your Favourite List Successfully',
             'data' => $favourites,
         ],200);
     }  
